@@ -13,18 +13,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitApi {
 
-    private Retrofit retrofit;
+    private static Retrofit retrofit = null;
     private static RetrofitApi retrofitApi = null;
 
     private RetrofitApi() {
-        retrofit =
+        retrofit = createRetrofit();
     }
 
     public static ApiRequest getInstance() {
         if (retrofitApi == null) {
             retrofitApi = new RetrofitApi();
         }
-        return
+        return retrofit.create(ApiRequest.class);
     }
 
     private Retrofit createRetrofit() {
@@ -40,6 +40,7 @@ public class RetrofitApi {
                 .setLenient()
                 .disableHtmlEscaping()
                 .create();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://khoapham.vn/KhoaPhamTraining/json/tien/")
                 .client(okHttpClient)
